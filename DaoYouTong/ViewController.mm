@@ -2,8 +2,8 @@
 //  ViewController.m
 //  DaoYouTong
 //
-//  Created by 魏帅 on 2018/8/12.
-//  Copyright © 2018年 魏帅. All rights reserved.
+//  Created by 魏帅 on 2017/12/1.
+//  Copyright © 2017年 魏帅. All rights reserved.
 //
 
 #import "ViewController.h"
