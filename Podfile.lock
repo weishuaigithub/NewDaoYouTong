@@ -1,0 +1,26 @@
+PODS:
+  - BaiduMapKit (3.3.2)
+  - Masonry (1.0.2)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
+
+DEPENDENCIES:
+  - BaiduMapKit
+  - Masonry
+  - SDWebImage
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BaiduMapKit
+    - Masonry
+    - SDWebImage
+
+SPEC CHECKSUMS:
+  BaiduMapKit: 5118390d63b375483bd64c963e8e32a40fd9ddb5
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+
+PODFILE CHECKSUM: 313a24d92b3d52c37d3de4a7d9bd93f9f8791879
+
+COCOAPODS: 1.5.2
