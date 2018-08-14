@@ -215,12 +215,13 @@
     self.player.numberOfLoops = -1;
     self.player.rate = 0.5;
     
-////    [AVideoV addSubview:playerBtn];
+    [AVideoV addSubview:playerBtn];
     //二：加载视频区
      [_playerView destroyPlayer];
     if (_playerView == nil) {
         _playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(0, 60, kViewWidth,_avHeight)];
     }
+  
     [AVideoV addSubview: _playerView];
     //    //重复播放，默认不播放
     //    _playerView.repeatPlay = YES;
