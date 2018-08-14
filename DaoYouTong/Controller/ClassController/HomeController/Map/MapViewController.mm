@@ -221,7 +221,7 @@
     if (_playerView == nil) {
         _playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(0, 60, kViewWidth,_avHeight)];
     }
-    // 添加 
+    // 添加 1
     [AVideoV addSubview: _playerView];
     //    //重复播放，默认不播放
     //    _playerView.repeatPlay = YES;
