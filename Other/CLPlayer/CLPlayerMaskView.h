@@ -18,7 +18,7 @@
 /**播放按钮代理*/
 - (void)cl_playButtonAction:(UIButton *)button;
 /**全屏按钮代理*/
-//- (void)cl_fullButtonAction:(UIButton *)button;
+- (void)cl_fullButtonAction:(UIButton *)button;
 /**开始滑动*/
 - (void)cl_progressSliderTouchBegan:(CLSlider *)slider;
 /**滑动中*/

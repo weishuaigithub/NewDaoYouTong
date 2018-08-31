@@ -624,16 +624,16 @@ typedef NS_ENUM(NSInteger, CLPanDirection){
     self.toolBarDisappearTime = _toolBarDisappearTime;
 }
 #pragma mark - 全屏按钮响应事件
-//-(void)cl_fullButtonAction:(UIButton *)button{
-//    if (!_isFullScreen){
-//        _isUserTapMaxButton = YES;
-//        [self fullScreenWithDirection:UIInterfaceOrientationLandscapeLeft];
-//    }else{
-//        [self originalscreen];
-//    }
-//    //重新添加工具条定时消失定时器
-//    self.toolBarDisappearTime = _toolBarDisappearTime;
-//}
+-(void)cl_fullButtonAction:(UIButton *)button{
+    if (!_isFullScreen){
+        _isUserTapMaxButton = YES;
+        [self fullScreenWithDirection:UIInterfaceOrientationLandscapeLeft];
+    }else{
+        [self originalscreen];
+    }
+    //重新添加工具条定时消失定时器
+    self.toolBarDisappearTime = _toolBarDisappearTime;
+}
 #pragma mark - 播放失败按钮点击事件
 -(void)cl_failButtonAction:(UIButton *)button{
     [self.maskView.activity starAnimation];

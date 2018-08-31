@@ -43,7 +43,7 @@
     [self addSubview:self.progress];
     [self addSubview:self.slider];
     [self addSubview:self.totalTimeLabel];
-//    [self addSubview:self.fullButton];
+    [self addSubview:self.fullButton];
     
     //播放按钮
     [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,9 +57,16 @@
         make.width.mas_equalTo(45);
         make.centerY.equalTo(self);
     }];
+    //全屏按钮
+    [self.fullButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.bottom.mas_equalTo(-Padding);
+        make.top.mas_equalTo(Padding);
+        make.width.equalTo(self.fullButton.mas_height);
+    }];
     //总时间
     [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.mas_right).offset(-Padding);
+//        make.right.equalTo(self.mas_right).offset(-Padding);
+        make.right.equalTo(self.fullButton.mas_left).offset(-Padding);
         make.width.mas_equalTo(45);
         make.centerY.equalTo(self);
     }];
@@ -77,12 +84,7 @@
         make.height.mas_equalTo(2);
         make.centerY.equalTo(self);
     }];
-//全屏按钮
-//    [self.fullButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.bottom.mas_equalTo(-Padding);
-//        make.top.mas_equalTo(Padding);
-//        make.width.equalTo(self.fullButton.mas_height);
-//    }];
+
 }
 //播放按钮
 - (UIButton *) playButton{
@@ -134,13 +136,13 @@
     return _slider;
 }
 //全屏按钮
-//- (UIButton *) fullButton{
-//    if (_fullButton == nil){
-//        _fullButton = [[UIButton alloc] init];
-//        [_fullButton setImage:[UIImage imageNamed:@"CLMaxBtn"] forState:UIControlStateNormal];
-//        [_fullButton setImage:[UIImage imageNamed:@"CLMinBtn"] forState:UIControlStateSelected];
-//    }
-//    return _fullButton;
-//}
+- (UIButton *) fullButton{
+    if (_fullButton == nil){
+        _fullButton = [[UIButton alloc] init];
+        [_fullButton setImage:[UIImage imageNamed:@"CLMaxBtn"] forState:UIControlStateNormal];
+        [_fullButton setImage:[UIImage imageNamed:@"CLMinBtn"] forState:UIControlStateSelected];
+    }
+    return _fullButton;
+}
 
 @end

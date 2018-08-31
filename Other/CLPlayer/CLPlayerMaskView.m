@@ -99,7 +99,7 @@
         _playBottomToolBar = [[PlayBottomToolBar alloc]init];
         _playBottomToolBar.slider.enabled = YES;
         [_playBottomToolBar.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-//        [_playBottomToolBar.fullButton addTarget:self action:@selector(fullButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_playBottomToolBar.fullButton addTarget:self action:@selector(fullButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [_playBottomToolBar.slider addTarget:self action:@selector(progressSliderTouchBegan:) forControlEvents:UIControlEventTouchDown];
         // slider滑动中事件
         [_playBottomToolBar.slider addTarget:self action:@selector(progressSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -113,9 +113,9 @@
     return self.playBottomToolBar.playButton;
 }
 //全屏按钮
-//- (UIButton *) fullButton{
-//    return self.playBottomToolBar.fullButton;
-//}
+- (UIButton *) fullButton{
+    return self.playBottomToolBar.fullButton;
+}
 //当前播放时间
 - (UILabel *) currentTimeLabel{
     return self.playBottomToolBar.currentTimeLabel;
@@ -165,14 +165,14 @@
     }
 }
 //全屏按钮
-//- (void)fullButtonAction:(UIButton *)button{
-//    button.selected = !button.selected;
-//    if (_delegate && [_delegate respondsToSelector:@selector(cl_fullButtonAction:)]) {
-//        [_delegate cl_fullButtonAction:button];
-//    }else{
-//        NSLog(@"没有实现代理或者没有设置代理人");
-//    }
-//}
+- (void)fullButtonAction:(UIButton *)button{
+    button.selected = !button.selected;
+    if (_delegate && [_delegate respondsToSelector:@selector(cl_fullButtonAction:)]) {
+        [_delegate cl_fullButtonAction:button];
+    }else{
+        NSLog(@"没有实现代理或者没有设置代理人");
+    }
+}
 //失败按钮
 - (void)failButtonAction:(UIButton *)button{
     self.failButton.hidden = YES;

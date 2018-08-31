@@ -22,6 +22,6 @@
 /**播放进度条*/
 @property (nonatomic,strong) CLSlider *slider;
 /**底部工具条全屏按钮*/
-//@property (nonatomic,strong) UIButton *fullButton;
+@property (nonatomic,strong) UIButton *fullButton;
 
 @end

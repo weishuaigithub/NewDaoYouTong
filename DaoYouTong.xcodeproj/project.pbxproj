@@ -338,7 +338,6 @@
 		A71D4EA3212019600041D998 /* DaoYouTong */ = {
 			isa = PBXGroup;
 			children = (
-				A71D4F4121201FCC0041D998 /* Model */,
 				A71D4F4721201FD40041D998 /* View */,
 				A71D4F6921201FDF0041D998 /* Controller */,
 				A71D4FBF212026410041D998 /* AppDelegate.h */,
@@ -381,7 +380,6 @@
 				A71D4ED921201FA80041D998 /* MoveOffice */,
 				A71D4EEC21201FA90041D998 /* ViewExt */,
 				A71D4EEF21201FA90041D998 /* FMDB */,
-				A71D4EFC21201FA90041D998 /* ThirdFrameWorkFile */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -549,6 +547,7 @@
 		A71D4EEF21201FA90041D998 /* FMDB */ = {
 			isa = PBXGroup;
 			children = (
+				A71D4EFC21201FA90041D998 /* ThirdFrameWorkFile */,
 				A71D4EF021201FA90041D998 /* FMDatabase.h */,
 				A71D4EF121201FA90041D998 /* FMDatabaseQueue.m */,
 				A71D4EF221201FA90041D998 /* FMResultSet.h */,
@@ -567,6 +566,7 @@
 		A71D4EFC21201FA90041D998 /* ThirdFrameWorkFile */ = {
 			isa = PBXGroup;
 			children = (
+				A71D4F4121201FCC0041D998 /* Model */,
 				A71D4EFD21201FA90041D998 /* UIColor+ColorChange.m */,
 				A71D4EFE21201FA90041D998 /* UIColor+ColorChange.h */,
 				A71D4EFF21201FA90041D998 /* XinZhiWeather */,
@@ -932,21 +932,21 @@
 		A71D4FF921202DAE0041D998 /* CLPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				A71D4FFA21202DAE0041D998 /* CLGCDTimerManager.h */,
+				A71D4FFD21202DAE0041D998 /* Category */,
+				A71D500A21202DAE0041D998 /* CLSlider.h */,
 				A71D4FFB21202DAE0041D998 /* CLSlider.m */,
 				A71D4FFC21202DAE0041D998 /* CLPlayerView.h */,
-				A71D4FFD21202DAE0041D998 /* Category */,
-				A71D500621202DAE0041D998 /* PlayBottomToolBar.h */,
-				A71D500721202DAE0041D998 /* AILoadingView.m */,
-				A71D500821202DAE0041D998 /* PlayTopToolBar.m */,
-				A71D500921202DAE0041D998 /* CLPlayerMaskView.m */,
-				A71D500A21202DAE0041D998 /* CLSlider.h */,
 				A71D500B21202DAE0041D998 /* CLPlayerView.m */,
-				A71D500C21202DAE0041D998 /* CLGCDTimerManager.m */,
-				A71D500D21202DAE0041D998 /* AILoadingView.h */,
-				A71D500E21202DAE0041D998 /* PlayTopToolBar.h */,
+				A71D500621202DAE0041D998 /* PlayBottomToolBar.h */,
 				A71D500F21202DAE0041D998 /* PlayBottomToolBar.m */,
+				A71D500D21202DAE0041D998 /* AILoadingView.h */,
+				A71D500721202DAE0041D998 /* AILoadingView.m */,
+				A71D500E21202DAE0041D998 /* PlayTopToolBar.h */,
+				A71D500821202DAE0041D998 /* PlayTopToolBar.m */,
 				A71D501021202DAE0041D998 /* CLPlayerMaskView.h */,
+				A71D500921202DAE0041D998 /* CLPlayerMaskView.m */,
+				A71D4FFA21202DAE0041D998 /* CLGCDTimerManager.h */,
+				A71D500C21202DAE0041D998 /* CLGCDTimerManager.m */,
 			);
 			path = CLPlayer;
 			sourceTree = "<group>";

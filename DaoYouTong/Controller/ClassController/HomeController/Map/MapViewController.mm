@@ -23,6 +23,7 @@
 #import "UIView+CLSetRect.h"
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
+#import "PlayBottomToolBar.h"
 
 @interface MapViewController ()
 {
@@ -40,6 +41,7 @@
 }
 @property(nonatomic,strong) AVAudioPlayer * player;
 @property(nonatomic,assign) BOOL isPlaying;
+@property(nonatomic,strong) PlayBottomToolBar *toolBar;
 
 /**CLplayer*/
 @property (nonatomic, strong) CLPlayerView * playerView;
@@ -53,6 +55,7 @@
     [_mapView viewWillAppear];
     _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
 //    _routesearch.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    self.navigationController.navigationBar.hidden = YES;
 
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -215,13 +218,13 @@
     self.player.numberOfLoops = -1;
     self.player.rate = 0.5;
     
-    [AVideoV addSubview:playerBtn];
+//    [AVideoV addSubview:playerBtn];
     //二：加载视频区
      [_playerView destroyPlayer];
     if (_playerView == nil) {
-        _playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(0, 60, kViewWidth,_avHeight)];
+        _playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(0, 0, kViewWidth,_avHeight)];
     }
-    // 直接Push
+    //
     [AVideoV addSubview: _playerView];
     //    //重复播放，默认不播放
     //    _playerView.repeatPlay = YES;
@@ -240,11 +243,17 @@
     //    //转子颜色
     //    _playerView.strokeColor = [UIColor redColor];
     //视频地址
-    _playerView.url = [NSURL URLWithString:@"http://192.168.0.100:8080/FileUploadAndDownload01/upload/02.mov"];
+    _playerView.url = [NSURL URLWithString:@"http://192.168.0.101:8080/FileUploadAndDownload01/upload/MVI.MOV"];
+    
+//    //添加 播放按钮
+//    self.toolBar  = [[PlayBottomToolBar alloc]initWithFrame:CGRectMake(0, _avHeight-60, kViewWidth, 60)];
+//    [AVideoV addSubview:self.toolBar];
+//    [self.toolBar.playButton addTarget:self action:@selector(playAction:) forControlEvents:UIControlEventTouchUpInside];
     //播放
     [_playerView playVideo];
     //返回按钮点击事件回调
     [_playerView destroyPlay:^{
+//         self.toolBar.alpha = 1;
         NSLog(@"播放器被销毁了");
     }];
     [_playerView backButton:^(UIButton *button) {
@@ -253,12 +262,19 @@
     //播放完成回调
     [_playerView endPlay:^{
         //销毁播放器
-        [_playerView destroyPlayer];
-        _playerView = nil;
+        [self->_playerView destroyPlayer];
+        self->_playerView = nil;
         NSLog(@"播放完成");
     }];
-
 }
+//播放按钮点击
+- (void)playAction:(UIButton *)sender {
+    
+    self.toolBar.alpha = 0;
+    //播放
+    [_playerView playVideo];
+}
+
 - (void)clickPlay:(UIButton*)button{
     
     if(!self.isPlaying){
