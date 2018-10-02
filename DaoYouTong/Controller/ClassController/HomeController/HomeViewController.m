@@ -8,7 +8,7 @@
 //首页视图
 #import "HomeViewController.h"
 #import "MapViewController.h"//地图界面
-
+#import "WeatherViewController.h"//获取天气信息界面
 @interface HomeViewController ()<BaseTableViewControllerDelegate,UINavigationControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 
@@ -30,6 +30,7 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)setUI
 {
     // 0.定位城市 并且获取天气信息（400/每小时，可以注册多账号）
+    [self addLocationAddWeather];
     //滑动区：由单元格选择区（第一步）  和 单元格头视图 （第二步）组成。
     //一 景点导游选择区
     [self addGuidesView];
@@ -63,9 +64,13 @@ static NSString * const reuseIdentifier = @"Cell";
 // 0.定位城市 并且获取天气信息（400/每小时，可以注册多账号）
 -(void)addLocationAddWeather
 {
+    WeatherViewController * WeatherVC  = [[WeatherViewController alloc]init];
     
-    
-    
+    if(!_weatherV)
+    {
+        _weatherV  = [[WeatherView alloc]init];
+    }
+    _weatherV = WeatherVC.view ;
 }
 //一.景点选择区
 -(void)addGuidesView
@@ -112,7 +117,11 @@ static NSString * const reuseIdentifier = @"Cell";
 //1.顶部天气视图
 -(void)addWeatherView
 {
-    _weatherV  = [[WeatherView alloc]init];
+    if(!_weatherV)
+    {
+        _weatherV  = [[WeatherView alloc]init];
+    }
+    
     _weatherV.frame =  CGRectMake(0, 0, kViewWidth, kViewHeight/3);
     _weatherV.backgroundColor = [UIColor blueColor];
     [_backGroundV  addSubview: _weatherV];

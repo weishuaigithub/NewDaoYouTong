@@ -92,6 +92,10 @@
 		A71D501921202DAE0041D998 /* CLPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A71D500B21202DAE0041D998 /* CLPlayerView.m */; };
 		A71D501A21202DAE0041D998 /* CLGCDTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A71D500C21202DAE0041D998 /* CLGCDTimerManager.m */; };
 		A71D501B21202DAE0041D998 /* PlayBottomToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A71D500F21202DAE0041D998 /* PlayBottomToolBar.m */; };
+		A78314682150E9FC00FC649E /* WeatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A78314672150E9FC00FC649E /* WeatherViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A78314A1215BC24400FC649E /* NSArray+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = A783149B215BC24400FC649E /* NSArray+HYBUnicodeReadable.m */; };
+		A78314A2215BC24400FC649E /* NSDictionary+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = A783149C215BC24400FC649E /* NSDictionary+HYBUnicodeReadable.m */; };
+		A78314A3215BC24400FC649E /* NSSet+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = A783149D215BC24400FC649E /* NSSet+HYBUnicodeReadable.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -256,6 +260,14 @@
 		A71D500F21202DAE0041D998 /* PlayBottomToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayBottomToolBar.m; sourceTree = "<group>"; };
 		A71D501021202DAE0041D998 /* CLPlayerMaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLPlayerMaskView.h; sourceTree = "<group>"; };
 		A71D501C212031AF0041D998 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		A78314662150E9FC00FC649E /* WeatherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherViewController.h; sourceTree = "<group>"; };
+		A78314672150E9FC00FC649E /* WeatherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherViewController.m; sourceTree = "<group>"; };
+		A783149B215BC24400FC649E /* NSArray+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
+		A783149C215BC24400FC649E /* NSDictionary+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
+		A783149D215BC24400FC649E /* NSSet+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
+		A783149E215BC24400FC649E /* NSArray+HYBUnicodeReadable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+HYBUnicodeReadable.h"; sourceTree = "<group>"; };
+		A783149F215BC24400FC649E /* NSDictionary+HYBUnicodeReadable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+HYBUnicodeReadable.h"; sourceTree = "<group>"; };
+		A78314A0215BC24400FC649E /* NSSet+HYBUnicodeReadable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+HYBUnicodeReadable.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -375,6 +387,7 @@
 		A71D4ED621201FA80041D998 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				A783149A215BC24400FC649E /* HYBUnicodeReadable */,
 				A71D4FF921202DAE0041D998 /* CLPlayer */,
 				A71D4FB42120218F0041D998 /* PrefixHeader.pch */,
 				A71D4ED921201FA80041D998 /* MoveOffice */,
@@ -695,8 +708,8 @@
 		A71D4F4D21201FD40041D998 /* ClassView */ = {
 			isa = PBXGroup;
 			children = (
-				A71D4F4E21201FD40041D998 /* DeatilView */,
 				A71D4F4F21201FD40041D998 /* HomeView */,
+				A71D4F4E21201FD40041D998 /* DeatilView */,
 				A71D4F5F21201FD40041D998 /* MineView */,
 				A71D4F6021201FD40041D998 /* NewsView */,
 			);
@@ -828,10 +841,11 @@
 		A71D4F7821201FDF0041D998 /* HomeController */ = {
 			isa = PBXGroup;
 			children = (
-				A71D4F7921201FDF0041D998 /* HomeViewController.m */,
-				A71D4F7A21201FDF0041D998 /* GuidesTableViewController.m */,
+				A783145A2150DD7000FC649E /* Weather */,
 				A71D4F9721201FDF0041D998 /* HomeViewController.h */,
+				A71D4F7921201FDF0041D998 /* HomeViewController.m */,
 				A71D4F9821201FDF0041D998 /* GuidesTableViewController.h */,
+				A71D4F7A21201FDF0041D998 /* GuidesTableViewController.m */,
 				A71D4F7B21201FDF0041D998 /* Map */,
 			);
 			path = HomeController;
@@ -964,6 +978,28 @@
 				A71D500521202DAE0041D998 /* UIView+CLSetRect.m */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		A783145A2150DD7000FC649E /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				A78314662150E9FC00FC649E /* WeatherViewController.h */,
+				A78314672150E9FC00FC649E /* WeatherViewController.m */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
+		A783149A215BC24400FC649E /* HYBUnicodeReadable */ = {
+			isa = PBXGroup;
+			children = (
+				A783149B215BC24400FC649E /* NSArray+HYBUnicodeReadable.m */,
+				A783149C215BC24400FC649E /* NSDictionary+HYBUnicodeReadable.m */,
+				A783149D215BC24400FC649E /* NSSet+HYBUnicodeReadable.m */,
+				A783149E215BC24400FC649E /* NSArray+HYBUnicodeReadable.h */,
+				A783149F215BC24400FC649E /* NSDictionary+HYBUnicodeReadable.h */,
+				A78314A0215BC24400FC649E /* NSSet+HYBUnicodeReadable.h */,
+			);
+			path = HYBUnicodeReadable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1183,6 +1219,8 @@
 				A71D4F6821201FD40041D998 /* SearchView.m in Sources */,
 				A71D4F0521201FA90041D998 /* FMDatabase.m in Sources */,
 				A71D4F9E21201FDF0041D998 /* BaseTabBarController.m in Sources */,
+				A78314A3215BC24400FC649E /* NSSet+HYBUnicodeReadable.m in Sources */,
+				A78314A2215BC24400FC649E /* NSDictionary+HYBUnicodeReadable.m in Sources */,
 				A71D4F9F21201FDF0041D998 /* MyViewController.m in Sources */,
 				A71D4EB4212019610041D998 /* main.m in Sources */,
 				A71D4F0621201FA90041D998 /* FMDatabasePool.m in Sources */,
@@ -1192,6 +1230,7 @@
 				A71D501321202DAE0041D998 /* UINavigationController+CLPlayerRotation.m in Sources */,
 				A71D4FA621201FDF0041D998 /* CustomOverlayView.mm in Sources */,
 				A71D4F6421201FD40041D998 /* FunctionalKeysView.m in Sources */,
+				A78314682150E9FC00FC649E /* WeatherViewController.m in Sources */,
 				A71D4FAB21201FDF0041D998 /* JSONKit.m in Sources */,
 				A71D4F6221201FD40041D998 /* BaseView.m in Sources */,
 				A71D4FAA21201FDF0041D998 /* MyAnimatedAnnotationView.m in Sources */,
@@ -1201,6 +1240,7 @@
 				A71D4FA821201FDF0041D998 /* CustomOverlay.mm in Sources */,
 				A71D501521202DAE0041D998 /* UIView+CLSetRect.m in Sources */,
 				A71D4F4621201FCC0041D998 /* CLModel.m in Sources */,
+				A78314A1215BC24400FC649E /* NSArray+HYBUnicodeReadable.m in Sources */,
 				A71D4F9C21201FDF0041D998 /* BaseTableViewController.m in Sources */,
 				A71D4F6321201FD40041D998 /* FunctionKeysCollectionViewCell.m in Sources */,
 				A71D4FA221201FDF0041D998 /* GuidesTableViewController.m in Sources */,

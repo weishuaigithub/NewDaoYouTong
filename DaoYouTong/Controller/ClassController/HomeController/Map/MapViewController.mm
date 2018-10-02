@@ -37,7 +37,9 @@
     BMKWalkingRoutePlanOption *walkingRouteSearchOption2;
     int _number;//判断路段绘制次数
     FMDatabase * fmdb;//fmdb 数据库
+    UIView * _AVideoV;//音视频区
     
+//    UIImageView * _IMGVIew;//视频预览展示图片
 }
 @property(nonatomic,strong) AVAudioPlayer * player;
 @property(nonatomic,assign) BOOL isPlaying;
@@ -182,20 +184,24 @@
     }
     
 }
-//1添加音视频区
+//添加音视频区域
 -(void)addAudiondVideoView
 {
     _avHeight  = kViewWidth*9/16+20;
-    
-//    AVAudioPlayerViewController * avAudioVC  = [[AVAudioPlayerViewController alloc]init];
-//    avAudioVC.view.frame = CGRectMake(0, 0, kViewWidth, _avHeight);
-    
-    UIView * AVideoV  =[[UIView alloc]initWithFrame:CGRectMake(0, 0, kViewWidth, _avHeight)];
-    AVideoV.backgroundColor = [UIColor whiteColor];
+    //    AVAudioPlayerViewController * avAudioVC  = [[AVAudioPlayerViewController alloc]init];
+    //    avAudioVC.view.frame = CGRectMake(0, 0, kViewWidth, _avHeight);
+    _AVideoV  =[[UIView alloc]initWithFrame:CGRectMake(0, 0, kViewWidth, _avHeight)];
+    _AVideoV.backgroundColor = [UIColor whiteColor];
     self.view.userInteractionEnabled = YES;
-    [self.view addSubview:AVideoV];
-    
-    //一 ：加载音乐区
+    [self.view addSubview:_AVideoV];
+    //添加音乐区
+//    [self addAudioView];
+    //添加视频区
+    [self addIMGView];
+}
+//一 ：加载音乐区
+-(void)addAudioView
+{
     //加载本地音乐
     NSURL *fileUrl = [[NSBundle mainBundle] URLForResource:@"music" withExtension:@"mp3"];
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:nil];
@@ -218,14 +224,62 @@
     self.player.numberOfLoops = -1;
     self.player.rate = 0.5;
     
-//    [AVideoV addSubview:playerBtn];
-    //二：加载视频区
-     [_playerView destroyPlayer];
+        [_AVideoV addSubview:playerBtn];
+}
+//播放 音乐
+- (void)clickPlay:(UIButton*)button{
+    if(!self.isPlaying){
+        [self.player play];
+        button.selected = YES;
+        self.isPlaying = YES;
+    }else{
+        [self.player stop];
+        button.selected = NO;
+        self.isPlaying = NO;
+    }
+}
+//二：加载图片预展览区
+-(void)addIMGView
+{
+    //先加载图片，然后切换为 视频
+    UIImageView * IMGView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kViewWidth,_avHeight)];//大小同视频区域
+    NSString * pictureUrl = @"http://192.168.0.101:8080/FileUploadAndDownload01/upload/test.JPG";
+    __block UIImage *placeholderImage = [UIImage imageNamed:@"placeholder"];
+    [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:pictureUrl] completion:^(BOOL isInCache) {
+        if (isInCache) {
+            //本地存在图片,替换占位图片
+            placeholderImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:pictureUrl];
+        }
+        //主线程 网络图片替换本地图片
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [IMGView sd_setImageWithURL:[NSURL URLWithString:pictureUrl] placeholderImage:placeholderImage];
+        });
+    }];
+    //添加 播放栏
+    self.toolBar  = [[PlayBottomToolBar alloc]initWithFrame:CGRectMake(0, _avHeight-60, kViewWidth, 60)];
+    [self.toolBar.playButton addTarget:self action:@selector(playAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_AVideoV addSubview:IMGView];
+    [_AVideoV addSubview:self.toolBar];
+}
+//播放视频 按钮点击事件，隐藏图片和操控栏
+- (void)playAction:(UIButton *)sender {
+    self.toolBar.alpha = 0;
+    //播放
+    [self addVideoView];
+}
+
+//三：加载视频区
+-(void)addVideoView
+{
+    //视频
+    //销毁播放器
+    [_playerView destroyPlayer];
     if (_playerView == nil) {
         _playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(0, 0, kViewWidth,_avHeight)];
     }
-    //
-    [AVideoV addSubview: _playerView];
+    
+    [_AVideoV addSubview: _playerView];
     //    //重复播放，默认不播放
     //    _playerView.repeatPlay = YES;
     //    //当前控制器是否支持旋转，当前页面支持旋转的时候需要设置，告知播放器
@@ -243,17 +297,13 @@
     //    //转子颜色
     //    _playerView.strokeColor = [UIColor redColor];
     //视频地址
-    _playerView.url = [NSURL URLWithString:@"http://192.168.0.101:8080/FileUploadAndDownload01/upload/MVI.MOV"];
+    _playerView.url = [NSURL URLWithString:@"http://192.168.0.101:8080/FileUploadAndDownload01/upload/Mr.mp4"];
     
-//    //添加 播放按钮
-//    self.toolBar  = [[PlayBottomToolBar alloc]initWithFrame:CGRectMake(0, _avHeight-60, kViewWidth, 60)];
-//    [AVideoV addSubview:self.toolBar];
-//    [self.toolBar.playButton addTarget:self action:@selector(playAction:) forControlEvents:UIControlEventTouchUpInside];
     //播放
     [_playerView playVideo];
     //返回按钮点击事件回调
     [_playerView destroyPlay:^{
-//         self.toolBar.alpha = 1;
+        self.toolBar.alpha = 1;
         NSLog(@"播放器被销毁了");
     }];
     [_playerView backButton:^(UIButton *button) {
@@ -266,28 +316,9 @@
         self->_playerView = nil;
         NSLog(@"播放完成");
     }];
-}
-//播放按钮点击
-- (void)playAction:(UIButton *)sender {
     
-    self.toolBar.alpha = 0;
-    //播放
-    [_playerView playVideo];
 }
 
-- (void)clickPlay:(UIButton*)button{
-    
-    if(!self.isPlaying){
-        [self.player play];
-        button.selected = YES;
-        self.isPlaying = YES;
-    }else{
-        [self.player stop];
-        button.selected = NO;
-        self.isPlaying = NO;
-    }
-    
-}
 //---------------------------2添加地图区---------------------------
 -(void)addBaiDuMapView
 {

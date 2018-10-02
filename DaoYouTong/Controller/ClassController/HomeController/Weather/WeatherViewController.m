@@ -1,0 +1,143 @@
+#import "WeatherViewController.h"
+#import "HmacSha1Tool.h"
+
+@interface WeatherViewController ()
+@end
+
+@implementation WeatherViewController
+
+#pragma mark - API KEY / USER ID
+//API 和 ID
+static NSString *TIANQI_API_SECRET_KEY = @"xkojmyi74gj0kjgi";   // YOUR API KEY
+static NSString *TIANQI_API_USER_ID = @"U0E4A68FBD";            // YOUR USER ID
+
+#pragma mark - 天气、生活、位置接口（这里只测试了免费接口，付费接口未做测试）
+
+//---------------------- 天气 ----------------------
+static NSString *TIANQI_DAILY_WEATHER_URL = @"https://api.seniverse.com/v3/weather/daily.json";     //逐日天气预报和昨日天气 URL
+static NSString *TIANQI_NOW_WEATHER_URL = @"https://api.seniverse.com/v3/weather/now.json";         //天气实况 URL
+
+//---------------------- 生活 ----------------------
+static NSString *TIANQI_LIFE_SUGGESTION_URL = @"https://api.seniverse.com/v3/life/suggestion.json"; //生活指数 URL
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    // 创建 session 对象
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSString * nameStr  = @"济宁";//输入汉字 区别“集宁”，使用拼音则会造成混乱
+    NSString *dataUTF8 = [nameStr stringByAddingPercentEncodingWithAllowedCharacters:(NSCharacterSet * )NSUTF8StringEncoding];
+    NSString *urlStr = [self fetchWeatherWithURL:TIANQI_DAILY_WEATHER_URL //TIANQI_NOW_WEATHER_URL
+                                             ttl:@30
+                                        Location:dataUTF8//查询位置需要对汉字进行转码，不然会有地名重复
+                                        language:@"zh-Hans"//zh-Hans 简体中文
+                                            unit:@"c"//单位 当参数为c时，温度c、风速km/h、能见度km、气压mb;当参数为f时，温度f、风速mph、能见度mile、气压inch
+                                           start:@"0"//表示今天
+                                            days:@"3"];//该权限 最大是3天
+    NSURL *url = [NSURL URLWithString:urlStr];
+    
+    // 通过 URL 初始化 task,在 block 内部可以直接对返回的数据进行处理
+    NSURLSessionTask *task = [session dataTaskWithURL:url
+                                    completionHandler:^(NSData *data,
+                                                        NSURLResponse *response,
+                                                        NSError *error)
+    {
+            // 最简单的错误处理机制:
+            if (data && !error)
+            {
+                //方法一 JSONP
+                // JSON格式转换成字典，IOS5中自带解析类NSJSONSerialization从response中解析出数据放到字典中
+                id objDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+                NSLog(@" 总数据---%@", objDic);
+                //信息“results”对应数组
+                NSArray * resultsAry  = [objDic objectForKey:@"results"];
+                //更新时间
+                // NSLog(@"3---%@", resultsAry[0][@"last_update"]);
+                //地点
+                NSDictionary * locationDic  = [resultsAry[0] objectForKey:@"location"];
+                NSLog(@" 数组数据---%@", locationDic);
+                
+                //---------------------- 逐日天气预报和昨日天气 ----------------------
+                NSArray* dailyAry = resultsAry[0][@"daily"];
+                NSDictionary * dailyTodayDic = dailyAry[0];
+                NSString * dateToday  = [dailyTodayDic objectForKey:@"date"];
+                NSLog(@"今日日期：%@",dateToday);
+                NSString *weekToday = [ self getTimeWithTodayOfWeekDay:0];
+                NSLog(@"weekToday is %@",weekToday);
+                NSString* tomorrow  = [self getTimeWithTodayOfWeekDay:1];
+                NSLog(@"tomorrow is %@",tomorrow);
+                
+                //---------------------- 生活 ----------------------
+                //  建议信息
+//                NSDictionary * suggestionDic  = [resultsAry[0] objectForKey:@"suggestion"];
+//                NSLog(@"suggestionDic---%@", suggestionDic);
+            }
+//            NSLog(@"输出:%@",[self dictionaryToJson: [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil]] );
+    }];
+
+    // 启动任务
+    [task resume];
+}
+//获取星期日期： 获取前天 昨天、今天、明天 后天是星期几,0表示今天
+-(NSString *)getTimeWithTodayOfWeekDay:(int)days
+{
+    NSDateComponents *componets = [[NSCalendar autoupdatingCurrentCalendar] components:NSCalendarUnitWeekday fromDate:[NSDate date]];
+    int weekday =(int)[componets weekday];//a就是星期几，1代表星期日，2代表星期一，后面依次
+    NSArray *weekArray = @[@"周日",@"周一",@"周二",@"周三",@"周四",@"周五",@"周六"];
+    int day  = (weekday-1+days)%7;//取余
+    if (day<0)
+    {
+        day  = -day;
+    }
+    NSString *weekStr = weekArray[day];
+    return  weekStr;
+}
+//字典转json格式字符串：
+- (NSString*)dictionaryToJson:(NSDictionary *)dic
+{
+    NSError *parseError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+
+/**
+ 配置带请求参数的 url 地址。
+
+ @param url 需要请求的 url 地址。 例如：获取指定城市的天气实况 url 为 TIANQI_NOW_WEATHER_URL
+ @param ttl 签名失效时间(可选)，默认有效期为 1800 秒（30分钟）
+ @param location 所查询的位置
+ @param language 语言(可选)。 默认值：zh-Hans
+ @param unit 单位 (可选)。默认值：c
+ @param start 起始时间 (可选)。默认值：0
+ @param days 天数 (可选)。 默认为你的权限允许的最多天数
+ @return return 带请求参数的 url 地址
+ */
+- (NSString *)fetchWeatherWithURL:(NSString *)url
+                              ttl:(NSNumber *)ttl
+                         Location:(NSString *)location
+                         language:(NSString *)language
+                             unit:(NSString *)unit
+                            start:(NSString *)start
+                             days:(NSString *)days{
+    NSString *timestamp = [NSString stringWithFormat:@"%.0ld",time(NULL)];
+    NSString *params = [NSString stringWithFormat:@"ts=%@&ttl=%@&uid=%@", timestamp, ttl, TIANQI_API_USER_ID];
+    NSString *signature =  [self getSigntureWithParams:params];
+
+    NSString *urlStr = [NSString stringWithFormat:@"%@?%@&sig=%@&location=%@&language=%@&unit=%@&start=%@&days=%@",
+                        url, params, signature, location, language, unit, start, days];
+    return urlStr;
+}
+
+/**
+ 获得签名字符串，关于如何使用签名验证方式，详情见 https://www.seniverse.com/doc#sign
+
+ @param params 验证参数字符串
+ @return signature HMAC-SHA1 加密后得到的签名字符串
+ */
+- (NSString *)getSigntureWithParams:(NSString *)params{
+    NSString *signature = [HmacSha1Tool HmacSha1Key:TIANQI_API_SECRET_KEY data:params];
+    return signature;
+}
+
+@end
